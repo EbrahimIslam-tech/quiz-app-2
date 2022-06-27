@@ -109,7 +109,7 @@ const data = [
       },
     ],
   },
-  {
+  /* {
     id: 6,
     question: "Rolex is a company that specializes in what type of product?",
     answers: [
@@ -658,6 +658,6 @@ const data = [
         correct: false,
       },
     ],
-  },
+  }, */
 ];
 export default data;

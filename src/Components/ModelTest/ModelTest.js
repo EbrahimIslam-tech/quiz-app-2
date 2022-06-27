@@ -54,6 +54,7 @@ const ModelTest = ({
     } else {
       setError(true);
     } */
+
     setValue();
   };
   const handleRadioDisabled = (id) => {
@@ -65,21 +66,24 @@ const ModelTest = ({
     }
   };
 
-  const handleAnswerOptionClick = (isCorrect) => {
-    if (checkvalue === true) {
-      setScore(score + 1);
-      setError(false);
-    } else {
-      setError(true);
-    }
+  const handleAnswerOptionClick = (ansvalue) => {
     // setRadioDisabled(!radioDisabled);
+
     dispatch(saveQusAns({ qsn: data[currentQuestion], ans: value }));
+
     const nextQuestion = currentQuestion + 1;
     if (nextQuestion < data.length) {
       setCurrentQuestion(nextQuestion);
     } else {
       setShowScore(true);
       setTimeOut(true);
+    }
+
+    if (checkvalue === true) {
+      setScore(score + 1);
+      setError(false);
+    } else {
+      setError(true);
     }
   };
 
@@ -230,6 +234,11 @@ const ModelTest = ({
                 <FormControl
                   sx={{ m: 3 }}
                   variant="standard"
+                  onBlur={() => {
+                    handleAnswerOptionClick();
+                    setRadioDisabled(!radioDisabled);
+                  }}
+
                   // disabled={radioDisabled}
                 >
                   {" "}
@@ -249,12 +258,12 @@ const ModelTest = ({
                           onClick={() => {
                             // console.log(mcqs.id);
                             setCheckValue(answerOption.correct);
-                            handleAnswerOptionClick();
-                            handleRadioDisabled(mcqs.id);
+
+                            // handleRadioDisabled(mcqs.id);
                           }}
                           value={answerOption.text}
                           // checked={value === answerOption.text}
-                           disabled={radioDisabled}
+                          disabled={radioDisabled}
                           control={
                             <Radio
                               sx={
@@ -281,6 +290,7 @@ const ModelTest = ({
               </form>
             </Grid>
           ))}
+          <button type="submit">Submit</button>
         </div>
       )}
     </Container>
