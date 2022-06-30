@@ -22,7 +22,7 @@ const ModelTest = ({
   data,
 }) => {
   const [value, setValue] = useState();
-  console.log(value);
+  // console.log(value);
   const { data: qusAnsdata } = useSelector((store) => store.qusAns);
   const dispatch = useDispatch();
   const [checkvalue, setCheckValue] = useState("");
@@ -74,6 +74,7 @@ const ModelTest = ({
     const nextQuestion = currentQuestion + 1;
     if (nextQuestion < data.length) {
       setCurrentQuestion(nextQuestion);
+      // setCurrentQuestion((current) => [...current, parseInt(nextQuestion)]);
     } else {
       setShowScore(true);
       setTimeOut(true);
@@ -236,7 +237,7 @@ const ModelTest = ({
                   variant="standard"
                   onBlur={() => {
                     handleAnswerOptionClick();
-                    setRadioDisabled(!radioDisabled);
+                    // setRadioDisabled(!radioDisabled);
                   }}
 
                   // disabled={radioDisabled}
