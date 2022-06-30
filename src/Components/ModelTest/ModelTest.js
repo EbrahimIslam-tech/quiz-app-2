@@ -13,6 +13,7 @@ import Timer from "./Timer";
 
 import { saveQusAns } from "../../features/qusSlice";
 import { Grid } from "@mui/material";
+import Question from "./Question";
 
 const ModelTest = ({
   qusnumbervalue,
@@ -33,8 +34,8 @@ const ModelTest = ({
   const [showScore, setShowScore] = useState(false);
   const [score, setScore] = useState(0);
 
-  const [radioDisabled, setRadioDisabled] = React.useState(false);
-  console.log(radioDisabled, "radioDisabled");
+  // const [radioDisabled, setRadioDisabled] = React.useState(false);
+  // console.log(radioDisabled, "radioDisabled");
   // const qusdata = data.slice(0, qusnumbervalue);
 
   useEffect(() => {}, []);
@@ -48,37 +49,22 @@ const ModelTest = ({
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    /*  if (checkvalue === true) {
-      setScore(score + 1);
-      setError(false);
-    } else {
-      setError(true);
-    } */
-
     setValue();
-  };
-  const handleRadioDisabled = (id) => {
-    console.log(id, "id");
-    if (currentQuestion === id) {
-      setRadioDisabled(true);
-    } else {
-      setRadioDisabled(false);
-    }
   };
 
   const handleAnswerOptionClick = (ansvalue) => {
-    // setRadioDisabled(!radioDisabled);
+    setCurrentQuestion(currentQuestion + 1);
 
-    dispatch(saveQusAns({ qsn: data[currentQuestion], ans: value }));
+    /*    dispatch(saveQusAns({ qsn: data[currentQuestion], ans: value }));
 
     const nextQuestion = currentQuestion + 1;
     if (nextQuestion < data.length) {
       setCurrentQuestion(nextQuestion);
-      // setCurrentQuestion((current) => [...current, parseInt(nextQuestion)]);
+     
     } else {
       setShowScore(true);
       setTimeOut(true);
-    }
+    } */
 
     if (checkvalue === true) {
       setScore(score + 1);
@@ -112,7 +98,7 @@ const ModelTest = ({
       >
         <h4>BCS Preli Model Test </h4>
         <div className="question-count">
-          <span>Question No: {currentQuestion + 1}</span>/{data.length}
+          <span>Question No: {currentQuestion}</span>/{data.length}
         </div>
       </div>
 
@@ -228,83 +214,19 @@ const ModelTest = ({
           ))}
         </div>
       ) : (
-        <div>
+        <form onSubmit={handleSubmit} style={{ float: "left" }}>
           {data.map((mcqs) => (
-            <Grid container spacing={2}>
-              <form onSubmit={handleSubmit} style={{ float: "left" }}>
-                <FormControl
-                  sx={{ m: 3 }}
-                  variant="standard"
-                  onBlur={() => {
-                    handleAnswerOptionClick();
-                    // setRadioDisabled(!radioDisabled);
-                  }}
-
-                  // disabled={radioDisabled}
-                >
-                  {" "}
-                  <FormLabel style={{ textAlign: "left" }}>
-                    <div> {mcqs.question}</div>
-                  </FormLabel>
-                  <RadioGroup
-                    aria-labelledby="demo-error-radios"
-                    name="quiz"
-                    value={value}
-                    onChange={handleRadioChange}
-                  >
-                    {mcqs.answers.map((answerOption) => (
-                      <>
-                        <FormControlLabel
-                          key={mcqs.id}
-                          onClick={() => {
-                            // console.log(mcqs.id);
-                            setCheckValue(answerOption.correct);
-
-                            // handleRadioDisabled(mcqs.id);
-                          }}
-                          value={answerOption.text}
-                          // checked={value === answerOption.text}
-                          disabled={radioDisabled}
-                          control={
-                            <Radio
-                              sx={
-                                answerOption.correct === true
-                                  ? {
-                                      "&.Mui-checked": {
-                                        color: lightGreen[800],
-                                      },
-                                    }
-                                  : {
-                                      "&.Mui-checked": {
-                                        color: red[800],
-                                      },
-                                    }
-                              }
-                            />
-                          }
-                          label={answerOption.text}
-                        />
-                      </>
-                    ))}
-                  </RadioGroup>
-                </FormControl>
-              </form>
-            </Grid>
+            <Question
+              handleAnswerOptionClick={handleAnswerOptionClick}
+              handleRadioChange={handleRadioChange}
+              mcqs={mcqs}
+              value={value}
+              setCheckValue={setCheckValue}
+            />
           ))}
-          <button type="submit">Submit</button>
-        </div>
+        </form>
       )}
     </Container>
   );
 };
 export default ModelTest;
-/* {answerOption.correct === true ? (
-  sx={{
- "&.Mui-checked": {
-   color: lightGreen[800],
- },
-}}) : (  sx={{
- "&.Mui-checked": {
-   color: red[800],
- },
-}})} */
